@@ -3,97 +3,206 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StudentHub</title><style>
-body{
-font-family:Arial,sans-serif;
+*{
 margin:0;
-text-align:center;
-transition:0.3s;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
-header{
-background:#6a0dad;
+body{
+background:#f4f8f4;
+color:#333;
+}
+
+nav{
+background:#2e7d32;
 color:white;
-padding:20px;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-button{
-padding:10px;
-margin:5px;
-border:none;
-border-radius:8px;
-cursor:pointer;
+nav h2{
+font-size:24px;
+}
+
+nav ul{
+list-style:none;
+display:flex;
+gap:15px;
+}
+
+.hero{
+text-align:center;
+padding:50px 20px;
+background:linear-gradient(135deg,#2e7d32,#4caf50);
+color:white;
+}
+
+.hero h1{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.hero p{
+font-size:18px;
+}
+
+.container{
+padding:20px;
 }
 
 .card{
-margin:15px;
+background:white;
 padding:20px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,0.2);
+margin:20px 0;
+border-radius:15px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
-input, textarea{
-width:80%;
+button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#1b5e20;
+}
+
+input,textarea{
+width:100%;
 padding:10px;
-margin:10px;
+margin-top:10px;
+border:1px solid #ccc;
+border-radius:8px;
 }
-</style></head><body><header>
-<h1>📚 StudentHub</h1>
-<p>Study Planner • Money Tracker • AI Study Helper</p>
-</header><h3>Choose Your Theme</h3><button onclick="changeColor('#6a0dad')">Purple</button>
-<button onclick="changeColor('#2196F3')">Blue</button>
-<button onclick="changeColor('#4CAF50')">Green</button>
-<button onclick="changeColor('#FF9800')">Orange</button>
 
-<button onclick="darkMode()">🌙 Dark Mode</button>
+li{
+margin-top:10px;
+padding:10px;
+background:#e8f5e9;
+border-radius:8px;
+display:flex;
+justify-content:space-between;
+}
 
-<div class="card">
-<h2>📅 Study Planner</h2><input id="task" placeholder="Enter a task"><button onclick="addTask()">Add Task</button>
+footer{
+background:#2e7d32;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:30px;
+}
+</style></head><body><nav>
+<h2>📚 StudentHub</h2>
+<ul>
+<li>Home</li>
+<li>Study</li>
+<li>Money</li>
+<li>AI</li>
+</ul>
+</nav><section class="hero">
+<h1>Learn Smarter. Save Better. Succeed Faster.</h1>
+<p>Your Ultimate Student Success Companion</p>
+</section><div class="container"><div class="card">
+<h2>📅 Study Planner</h2><input id="taskInput" placeholder="Enter study task"><button onclick="addTask()">Add Task</button>
 
 <ul id="taskList"></ul>
 </div><div class="card">
-<h2>💰 Money Tracker</h2><input id="amount" type="number" placeholder="Enter amount"><button onclick="addMoney()">Save Money</button>
+<h2>💰 Money Tracker</h2><input type="number" id="moneyInput" placeholder="Enter amount"><button onclick="saveMoney()">Add Money</button>
 
-<p>Total Saved: ₦<span id="total">0</span></p>
+<p>Total Saved: ₦<span id="moneyTotal">0</span></p>
 </div><div class="card">
-<h2>🤖 AI Study Helper</h2><textarea id="notes" rows="5" placeholder="Paste notes here"></textarea><br><button onclick="summarize()">Summarize</button>
+<h2>🤖 AI Study Helper</h2><textarea id="notes" rows="5" placeholder="Paste your notes here"></textarea><button onclick="summarize()">Summarize</button>
 
 <p id="summary"></p>
-</div><script>
+</div></div><footer>
+Created by Ruby Nwogu 💚
+</footer>
+<script>
 
-function changeColor(color){
-document.querySelector("header").style.background=color;
-}
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let totalMoney = Number(localStorage.getItem("money")) || 0;
 
-function darkMode(){
-document.body.style.background="#111";
-document.body.style.color="white";
+document.getElementById("moneyTotal").innerText = totalMoney;
+
+function renderTasks(){
+const list = document.getElementById("taskList");
+list.innerHTML = "";
+
+tasks.forEach((task,index)=>{
+let li = document.createElement("li");
+
+li.innerHTML =
+task +
+' <button onclick="deleteTask(' + index + ')">Delete</button>';
+
+list.appendChild(li);
+});
 }
 
 function addTask(){
-let task=document.getElementById("task").value;
+let input = document.getElementById("taskInput");
 
-let li=document.createElement("li");
-li.textContent=task;
-
-document.getElementById("taskList").appendChild(li);
+if(input.value.trim() === ""){
+return;
 }
 
-let total=0;
+tasks.push(input.value);
 
-function addMoney(){
-let amount=Number(document.getElementById("amount").value);
+localStorage.setItem("tasks", JSON.stringify(tasks));
 
-total+=amount;
+input.value = "";
 
-document.getElementById("total").innerText=total;
+renderTasks();
+}
+
+function deleteTask(index){
+tasks.splice(index,1);
+
+localStorage.setItem("tasks", JSON.stringify(tasks));
+
+renderTasks();
+}
+
+function saveMoney(){
+let amount =
+Number(document.getElementById("moneyInput").value);
+
+if(amount <= 0){
+return;
+}
+
+totalMoney += amount;
+
+localStorage.setItem("money", totalMoney);
+
+document.getElementById("moneyTotal").innerText =
+totalMoney;
+
+document.getElementById("moneyInput").value = "";
 }
 
 function summarize(){
-let notes=document.getElementById("notes").value;
+let notes =
+document.getElementById("notes").value;
 
-document.getElementById("summary").innerText=
-"Summary: " + notes.substring(0,100) + "...";
+if(notes.trim() === ""){
+return;
 }
+
+document.getElementById("summary").innerText =
+"Summary: " + notes.substring(0,120) + "...";
+}
+
+renderTasks();
 
 </script></body>
 </html>
