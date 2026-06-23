@@ -24,16 +24,6 @@ justify-content:space-between;
 align-items:center;
 }
 
-nav h2{
-font-size:24px;
-}
-
-nav ul{
-list-style:none;
-display:flex;
-gap:15px;
-}
-
 .hero{
 text-align:center;
 padding:50px 20px;
@@ -42,12 +32,8 @@ color:white;
 }
 
 .hero h1{
-font-size:38px;
+font-size:32px;
 margin-bottom:10px;
-}
-
-.hero p{
-font-size:18px;
 }
 
 .container{
@@ -55,26 +41,12 @@ padding:20px;
 }
 
 .card{
-background:#e8f5e9;
+background:#dcedc8;
 padding:20px;
 margin:20px 0;
 border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
-border-left:6px solid #2e7d32;
-}
-
-button{
-background:#e8f5e9;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:8px;
-cursor:pointer;
-margin-top:10px;
-}
-
-button:hover{
-background:#1b5e20;
+box-shadow:0 4px 12px rgba(0,0,0,0.15);
+border-left:8px solid #2e7d32;
 }
 
 input,textarea{
@@ -85,13 +57,14 @@ border:1px solid #ccc;
 border-radius:8px;
 }
 
-li{
-margin-top:10px;
-padding:10px;
-background:#e8f5e9;
+button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:10px 15px;
 border-radius:8px;
-display:flex;
-justify-content:space-between;
+cursor:pointer;
+margin-top:10px;
 }
 
 footer{
@@ -99,30 +72,27 @@ background:#2e7d32;
 color:white;
 text-align:center;
 padding:15px;
-margin-top:30px;
+margin-top:20px;
 }
 </style></head><body><nav>
 <h2>📚 StudentHub</h2>
-<ul>
-<li>Home</li>
-<li>Study</li>
-<li>Money</li>
-<li>AI</li>
-</ul>
 </nav><section class="hero">
 <h1>Learn Smarter. Save Better. Succeed Faster.</h1>
 <p>Your Ultimate Student Success Companion</p>
 </section><div class="container"><div class="card">
-<h2>📅 Study Planner</h2><input id="taskInput" placeholder="Enter study task"><button onclick="addTask()">Add Task</button>
-
+<h2>📅 Study Planner</h2>
+<input id="taskInput" placeholder="Enter study task">
+<button onclick="addTask()">Add Task</button>
 <ul id="taskList"></ul>
 </div><div class="card">
-<h2>💰 Money Tracker</h2><input type="number" id="moneyInput" placeholder="Enter amount"><button onclick="saveMoney()">Add Money</button>
-
+<h2>💰 Money Tracker</h2>
+<input type="number" id="moneyInput" placeholder="Enter amount">
+<button onclick="saveMoney()">Add Money</button>
 <p>Total Saved: ₦<span id="moneyTotal">0</span></p>
 </div><div class="card">
-<h2>🤖 AI Study Helper</h2><textarea id="notes" rows="5" placeholder="Paste your notes here"></textarea><button onclick="summarize()">Summarize</button>
-
+<h2>🤖 AI Study Helper</h2>
+<textarea id="notes" rows="5" placeholder="Paste your notes here"></textarea>
+<button onclick="summarize()">Summarize</button>
 <p id="summary"></p>
 </div></div><footer>
 Created by Ruby Nwogu 💚
@@ -143,7 +113,7 @@ let li = document.createElement("li");
 
 li.innerHTML =
 task +
-' <button onclick="deleteTask(' + index + ')">Delete</button>';
+' <button style="background:#d32f2f;color:white;border:none;padding:6px 10px;border-radius:6px;" onclick="deleteTask(' + index + ')">Delete</button>';
 
 list.appendChild(li);
 });
@@ -174,8 +144,7 @@ renderTasks();
 }
 
 function saveMoney(){
-let amount =
-Number(document.getElementById("moneyInput").value);
+let amount = Number(document.getElementById("moneyInput").value);
 
 if(amount <= 0){
 return;
@@ -185,15 +154,13 @@ totalMoney += amount;
 
 localStorage.setItem("money", totalMoney);
 
-document.getElementById("moneyTotal").innerText =
-totalMoney;
+document.getElementById("moneyTotal").innerText = totalMoney;
 
 document.getElementById("moneyInput").value = "";
 }
 
 function summarize(){
-let notes =
-document.getElementById("notes").value;
+let notes = document.getElementById("notes").value;
 
 if(notes.trim() === ""){
 return;
