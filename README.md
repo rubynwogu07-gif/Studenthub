@@ -1,2 +1,1 @@
-# Studenthub
-Student planner, money tracker, and AI study helper for students.
+StudentHub is a student-focused productivity app that combines study planning, money management, and AI-powered learning tools into one easy-to-use platform. It helps students stay organized, track their progress, manage finances, and study more effectively.
