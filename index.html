@@ -1,44 +1,99 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
-<title>StudentHub</title>
-<style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudentHub</title><style>
 body{
-    font-family: Arial, sans-serif;
-    text-align:center;
-    background-color:white;
+font-family:Arial,sans-serif;
+margin:0;
+text-align:center;
+transition:0.3s;
 }
 
-h1{
-    color:#6a0dad;
+header{
+background:#6a0dad;
+color:white;
+padding:20px;
 }
 
 button{
-    padding:10px;
-    margin:5px;
-    border:none;
-    border-radius:5px;
+padding:10px;
+margin:5px;
+border:none;
+border-radius:8px;
+cursor:pointer;
 }
-</style>
-</head>
 
-<body>
+.card{
+margin:15px;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
 
-<h1>Welcome to StudentHub</h1>
+input, textarea{
+width:80%;
+padding:10px;
+margin:10px;
+}
+</style></head><body><header>
+<h1>📚 StudentHub</h1>
+<p>Study Planner • Money Tracker • AI Study Helper</p>
+</header><h3>Choose Your Theme</h3><button onclick="changeColor('#6a0dad')">Purple</button>
+<button onclick="changeColor('#2196F3')">Blue</button>
+<button onclick="changeColor('#4CAF50')">Green</button>
+<button onclick="changeColor('#FF9800')">Orange</button>
 
-<p>Study Planner, Money Tracker and AI Study Helper</p>
+<button onclick="darkMode()">🌙 Dark Mode</button>
 
-<h3>Choose Theme Color</h3>
+<div class="card">
+<h2>📅 Study Planner</h2><input id="task" placeholder="Enter a task"><button onclick="addTask()">Add Task</button>
 
-<button onclick="document.body.style.background='lightblue'">Blue</button>
+<ul id="taskList"></ul>
+</div><div class="card">
+<h2>💰 Money Tracker</h2><input id="amount" type="number" placeholder="Enter amount"><button onclick="addMoney()">Save Money</button>
 
-<button onclick="document.body.style.background='lightgreen'">Green</button>
+<p>Total Saved: ₦<span id="total">0</span></p>
+</div><div class="card">
+<h2>🤖 AI Study Helper</h2><textarea id="notes" rows="5" placeholder="Paste notes here"></textarea><br><button onclick="summarize()">Summarize</button>
 
-<button onclick="document.body.style.background='pink'">Pink</button>
+<p id="summary"></p>
+</div><script>
 
-<button onclick="document.body.style.background='lavender'">Purple</button>
+function changeColor(color){
+document.querySelector("header").style.background=color;
+}
 
-<button onclick="document.body.style.background='white'">Default</button>
+function darkMode(){
+document.body.style.background="#111";
+document.body.style.color="white";
+}
 
-</body>
+function addTask(){
+let task=document.getElementById("task").value;
+
+let li=document.createElement("li");
+li.textContent=task;
+
+document.getElementById("taskList").appendChild(li);
+}
+
+let total=0;
+
+function addMoney(){
+let amount=Number(document.getElementById("amount").value);
+
+total+=amount;
+
+document.getElementById("total").innerText=total;
+}
+
+function summarize(){
+let notes=document.getElementById("notes").value;
+
+document.getElementById("summary").innerText=
+"Summary: " + notes.substring(0,100) + "...";
+}
+
+</script></body>
 </html>
